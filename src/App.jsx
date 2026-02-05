@@ -15,54 +15,6 @@ export const goods = [
   'Garlic',
 ];
 
-const Print = ({ goodPrint, selectedGood, setSelectedGood }) => {
-  const setGood = () => {
-    setSelectedGood(goodPrint);
-  };
-
-  const remove = () => {
-    setSelectedGood('');
-  };
-
-  if (goodPrint === selectedGood) {
-    return (
-      <tr data-cy="Good" className="has-background-success-light">
-        <td>
-          <button
-            data-cy="RemoveButton"
-            type="button"
-            className="button is-info"
-            onClick={remove}
-          >
-            -
-          </button>
-        </td>
-        <td data-cy="GoodTitle" className="is-vcentered">
-          {goodPrint}
-        </td>
-      </tr>
-    );
-  }
-
-  return (
-    <tr data-cy="Good">
-      <td>
-        <button
-          data-cy="AddButton"
-          type="button"
-          className="button"
-          onClick={setGood}
-        >
-          +
-        </button>
-      </td>
-      <td data-cy="GoodTitle" className="is-vcentered">
-        {goodPrint}
-      </td>
-    </tr>
-  );
-};
-
 export const App = () => {
   const [selectedGood, setSelectedGood] = useState('Jam');
   const clearSelection = () => {
@@ -92,14 +44,47 @@ export const App = () => {
       )}
       <table className="table is-fullwidth">
         <tbody>
-          {goods.map(good => (
-            <Print
-              goodPrint={good}
-              key={good}
-              selectedGood={selectedGood}
-              setSelectedGood={setSelectedGood}
-            />
-          ))}
+          {goods.map(
+            good =>
+              good === selectedGood ? (
+                <tr
+                  key={good}
+                  data-cy="Good"
+                  className="has-background-success-light"
+                >
+                  <td>
+                    <button
+                      data-cy="RemoveButton"
+                      type="button"
+                      className="button is-info"
+                      onClick={clearSelection}
+                    >
+                      -
+                    </button>
+                  </td>
+                  <td data-cy="GoodTitle" className="is-vcentered">
+                    {good}
+                  </td>
+                </tr>
+              ) : (
+                <tr key={good} data-cy="Good">
+                  <td>
+                    <button
+                      data-cy="AddButton"
+                      type="button"
+                      className="button"
+                      onClick={() => setSelectedGood(good)}
+                    >
+                      +
+                    </button>
+                  </td>
+                  <td data-cy="GoodTitle" className="is-vcentered">
+                    {good}
+                  </td>
+                </tr>
+              ),
+            // eslint-disable-next-line function-paren-newline
+          )}
         </tbody>
       </table>
     </main>
